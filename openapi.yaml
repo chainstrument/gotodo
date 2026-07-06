@@ -1,0 +1,142 @@
+openapi: 3.0.3
+info:
+  title: gotodo API
+  description: API REST de gestion de todos (stockage in-memory)
+  version: 0.1.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /todos:
+    get:
+      summary: Liste tous les todos
+      operationId: listTodos
+      responses:
+        "200":
+          description: Liste des todos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Todo"
+    post:
+      summary: Crée un todo
+      operationId: createTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoInput"
+      responses:
+        "201":
+          description: Todo créé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          description: Requête invalide
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /todos/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      summary: Récupère un todo par son id
+      operationId: getTodo
+      responses:
+        "200":
+          description: Todo trouvé
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "404":
+          description: Todo introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      summary: Met à jour un todo (complet)
+      operationId: updateTodo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TodoInput"
+      responses:
+        "200":
+          description: Todo mis à jour
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Todo"
+        "400":
+          description: Requête invalide
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Todo introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Supprime un todo
+      operationId: deleteTodo
+      responses:
+        "204":
+          description: Todo supprimé
+        "404":
+          description: Todo introuvable
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        done:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required: [id, title, done, created_at, updated_at]
+    TodoInput:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        done:
+          type: boolean
+      required: [title]
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]

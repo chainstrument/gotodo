@@ -39,11 +39,13 @@ Réponses en JSON. Codes HTTP standards (`200`, `201`, `404`, `400`, etc).
 
 ## Lancer le projet
 
+Le projet tourne dans Docker (pas besoin d'installer Go en local) :
+
 ```bash
-go run ./cmd/gotodo
+docker compose up --build
 ```
 
-Le serveur écoute par défaut sur `http://localhost:8080`.
+Le serveur écoute sur `http://localhost:8080`.
 
 ## Documentation API
 
@@ -53,16 +55,18 @@ La spec OpenAPI est disponible dans [`openapi.yaml`](openapi.yaml).
 
 Pas de front pour l'instant. On teste l'API avec curl/Postman. Un front (probablement HTML/JS simple servi par le serveur Go, pour éviter le CORS) pourra être ajouté plus tard.
 
-## Structure du projet (prévue)
+## Structure du projet
 
 ```
 gotodo/
-├── cmd/gotodo/         # point d'entrée (main.go)
-├── internal/todo/      # modèle, store in-memory, handlers HTTP
+├── cmd/gotodo/          # point d'entrée (main.go)
+├── internal/todo/       # modèle, store in-memory, handlers HTTP
 ├── openapi.yaml         # spec OpenAPI
+├── Dockerfile           # build multi-stage de l'API
+├── compose.yaml         # docker compose pour lancer l'API
 └── README.md
 ```
 
 ## Statut
 
-🚧 En cours de construction — ce README définit le scope avant l'implémentation.
+✅ CRUD de todos implémenté et testé (in-memory, via Docker).
