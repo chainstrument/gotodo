@@ -53,7 +53,7 @@ La spec OpenAPI est disponible dans [`openapi.yaml`](openapi.yaml).
 
 ## Front
 
-Pas de front pour l'instant. On teste l'API avec curl/Postman. Un front (probablement HTML/JS simple servi par le serveur Go, pour éviter le CORS) pourra être ajouté plus tard.
+Un front minimal en HTML/CSS/JS vanilla (pas de build, pas de framework), servi par le serveur Go lui-même via `go:embed` sur `/`. Même origine que l'API, donc pas de CORS à gérer. Permet d'ajouter, cocher (done) et supprimer des todos depuis le navigateur : `http://localhost:8080`.
 
 ## Structure du projet
 
@@ -61,6 +61,7 @@ Pas de front pour l'instant. On teste l'API avec curl/Postman. Un front (probabl
 gotodo/
 ├── cmd/gotodo/          # point d'entrée (main.go)
 ├── internal/todo/       # modèle, store in-memory, handlers HTTP
+├── internal/web/        # front HTML/JS/CSS embarqué (go:embed) et servi sur /
 ├── openapi.yaml         # spec OpenAPI
 ├── Dockerfile           # build multi-stage de l'API
 ├── compose.yaml         # docker compose pour lancer l'API
@@ -70,3 +71,4 @@ gotodo/
 ## Statut
 
 ✅ CRUD de todos implémenté et testé (in-memory, via Docker).
+✅ Front HTML/JS simple servi par le serveur Go, testé dans le navigateur.
